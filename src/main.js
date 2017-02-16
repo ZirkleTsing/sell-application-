@@ -20,10 +20,10 @@ router.map({
   '/goods': {
     component: goods
   },
-  'seller': {
+  '/seller': {
     component: seller
   },
-  'ratings': {
+  '/ratings': {
     component: ratings
   }
 });

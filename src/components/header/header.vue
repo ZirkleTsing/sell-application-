@@ -35,20 +35,13 @@
       <!--固定套路-->
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
+          <p v-for="message in seller.supports">
+            {{message.description}}
+          </p>
         </div>
       </div>
       <div class="detail-close">
-        <i class="icon-close"></i>
+        <i class="icon-close" @click="closeDetail"></i>
       </div>
     </div>
   </div>
@@ -69,6 +62,9 @@
     methods: {
       showDetail() {
         this.detailShow = true;
+      },
+      closeDetail() {
+          this.detailShow = false;
       }
     },
     created() {

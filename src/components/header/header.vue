@@ -31,7 +31,26 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%"><!--充满整个父元素-->
     </div>
-    <div v-show="detailShow" class="detail"></div>
+    <div v-show="detailShow" class="detail">
+      <!--固定套路-->
+      <div class="detail-wrapper clearfix">
+        <div class="detail-main">
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+        </div>
+      </div>
+      <div class="detail-close">
+        <i class="icon-close"></i>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -183,4 +202,16 @@
       height: 100%
       overflow: auto /*否则超出屏幕高度部分不能滚动*/
       background: rgba(7, 17, 27, 0.8)
+      .detail-wrapper
+        min-height: 100%/*最小也是100%充满屏幕 与这个padding-bottom内边距相配合，留出64px的位置给close图标*/
+        .detail-main
+          margin-top: 64px
+          padding-bottom: 64px  /*padding-bottom 使得内容与关闭图标不会重叠*/
+      .detail-close
+        position: relative
+        width: 32px
+        height: 32px
+        margin: -64px auto 0 auto/*原本被100%高度填充的detail-main挤到外面，但是由于padding-bottom的存在使得-64px后可以固定在页面底部*/
+        clear: both
+        font-size: 32px
 </style>

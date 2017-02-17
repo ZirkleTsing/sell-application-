@@ -54,13 +54,13 @@
         type: Object
       }
     },
-    data() {
+    data () {
       return {
         detailShow: false
       };
     },
     methods: {
-      showDetail() {
+      showDetail () {
         this.detailShow = true;
       },
       closeDetail() {

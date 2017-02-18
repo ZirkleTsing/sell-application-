@@ -36,6 +36,9 @@
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
+          <div class="star-wrapper">
+            <star :size="48" :score="seller.score"></star>
+          </div>
         </div>
       </div>
       <div class="detail-close">
@@ -46,6 +49,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import star from 'components/star/star.vue';
+
   export default{
     props: {
       seller: {
@@ -62,11 +67,14 @@
         this.detailShow = true;
       },
       closeDetail() {
-          this.detailShow = false;
+        this.detailShow = false;
       }
     },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+    },
+    components: {
+      star
     }
   };
 </script>
@@ -198,20 +206,24 @@
       background: rgba(7, 17, 27, 0.8)
       .detail-wrapper
         width: 100%
-        min-height: 100%/*最小也是100%充满屏幕 与这个padding-bottom内边距相配合，留出64px的位置给close图标*/
+        min-height: 100% /*最小也是100%充满屏幕 与这个padding-bottom内边距相配合，留出64px的位置给close图标*/
         .detail-main
           margin-top: 64px
-          padding-bottom: 64px  /*padding-bottom 使得内容与关闭图标不会重叠*/
+          padding-bottom: 64px /*padding-bottom 使得内容与关闭图标不会重叠*/
           .name
             line-height: 16px
             text-align: center
             font-size: 16px
             font-weight: 700
+          .star-wrapper
+            margin-top: 16px
+            padding: 2px 0
+            text-align: center
       .detail-close
         position: relative
         width: 32px
         height: 32px
-        margin: -64px auto 0 auto/*原本被100%高度填充的detail-main挤到外面，但是由于padding-bottom的存在使得-64px后可以固定在页面底部*/
+        margin: -64px auto 0 auto /*原本被100%高度填充的detail-main挤到外面，但是由于padding-bottom的存在使得-64px后可以固定在页面底部*/
         clear: both
         font-size: 32px
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="star" :class="starType">
-    <span v-for="itemClass in itemClasses" :class="itemClass" class="star-item"></span>
+    <span v-for="itemClass in itemClasses" v-bind:class="itemClass" class="star-item" track-by="$index"></span>
   </div>
 </template>
 
@@ -20,17 +20,14 @@
       }
     },
     computed: {
-      starType(){
-        return 'star-' + this.size
+      starType() {
+        return 'star-' + this.size;
       },
       itemClasses() {
         let result = [];
         let score = Math.floor(this.score * 2) / 2;
-        /*向下取*/
         let hasDecimal = score % 1 !== 0;
-        /*是否有半星*/
         let integer = Math.floor(score);
-        /*全星个数*/
         for (let i = 0; i < integer; i++) {
           result.push(CLS_ON);
         }

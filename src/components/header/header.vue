@@ -39,6 +39,11 @@
           <div class="star-wrapper">
             <star :size="48" :score="seller.score"></star>
           </div>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">优惠信息</div>
+            <div class="line"></div>
+          </div>
         </div>
       </div>
       <div class="detail-close">
@@ -219,6 +224,18 @@
             margin-top: 16px
             padding: 2px 0
             text-align: center
+          .title
+            display: flex
+            width: 80%
+            margin: 30px auto 24px auto
+            .line
+              flex: 1
+              position: relative
+              top: -6px
+              border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+            .text
+              padding: 0 12px
+              font-size: 14px
       .detail-close
         position: relative
         width: 32px

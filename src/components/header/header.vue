@@ -44,6 +44,12 @@
             <div class="text">优惠信息</div>
             <div class="line"></div>
           </div>
+          <div v-if="seller.supports" class="sellerInfo">
+            <div v-for="element in seller.supports" :class="classMap[element.type]" class="sellerInfo-detail">
+              <span :class="classMap[seller.supports[$index].type]" class="seller-icon"></span>
+              <span class="seller-text">{{seller.supports[$index].description}}</span><!--可以用element.type 和element.description-->
+            </div>
+          </div>
         </div>
       </div>
       <div class="detail-close">
@@ -227,7 +233,7 @@
           .title
             display: flex
             width: 80%
-            margin: 30px auto 24px auto
+            margin: 28px auto 24px auto
             .line
               flex: 1
               position: relative
@@ -235,7 +241,34 @@
               border-bottom: 1px solid rgba(255, 255, 255, 0.2)
             .text
               padding: 0 12px
+              font-weight: 700
               font-size: 14px
+          .sellerInfo
+            margin: 24px 48px 28px 36px
+            .sellerInfo-detail
+              margin-bottom: 12px
+              .seller-icon
+                display: inline-block
+                vertical-align: top
+                margin-right: 6px
+                width: 18px
+                height: 18px
+                background-size: 18px 18px
+                background-repeat: no-repeat
+                &.decrease
+                  bg-image('decrease_1')
+                &.discount
+                  bg-image('discount_1')
+                &.guarantee
+                  bg-image('guarantee_1')
+                &.invoice
+                  bg-image('invoice_1')
+                &.special
+                  bg-image('special_1')
+              .seller-text
+                font-size: 12px
+                font-weight: 200
+                line-height: 12px
       .detail-close
         position: relative
         width: 32px

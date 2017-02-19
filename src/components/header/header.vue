@@ -202,7 +202,7 @@
       filter: blur(10px)
     .detail
       position: fixed
-      z-index: 100px
+      z-index: 100
       top: 0
       left: 0
       width: 100%

@@ -9,7 +9,37 @@
         </li>
       </ul>
     </div>
-    <div class="menu-detail"></div>
+    <div class="menu-detail">
+      <ul v-for="item in goods" class="menu-list">
+        <h1>{{item.name}}</h1>
+        <ul class="food-item">
+          <li v-for="food in item.foods">
+            <div class="icon">
+              <img :src="food.icon">
+            </div>
+            <div class="info">
+              <h2 class="name">{{food.name}}</h2>
+              <div class="desc">
+                <div class="desc-detail">{{food.description}}</div>
+                <div class="extra">
+                  <span class="sellCount">月售{{food.sellCount}}份</span>
+                  <span>好评率{{food.rating}}%</span>
+                </div>
+              </div>
+              <div class="price">
+                <span class="now">
+                  ￥{{food.price}}
+                </span>
+                <span v-if="food.oldPrice !=='' " class="old">
+                  ￥{{food.oldPrice}}
+                </span>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </ul>
+    </div>
   </div>
 </template>
 

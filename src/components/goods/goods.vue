@@ -22,15 +22,11 @@
               <div class="desc">
                 <div v-if="food.description !==''" class="desc-detail">{{food.description}}</div>
                 <div class="extra">
-                  <span class="sellCount">月售{{food.sellCount}}份</span>
-                  <span>好评率{{food.rating}}%</span>
+                  <span class="sellCount">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
                 </div>
               </div>
               <div class="price">
-                <span class="now">
-                  ￥{{food.price}}
-                </span>
-                <span v-if="food.oldPrice !==''" class="old">
+                <span class="now">￥{{food.price}}</span><span v-if="food.oldPrice !==''" class="old">
                   ￥{{food.oldPrice}}
                 </span>
               </div>
@@ -173,6 +169,7 @@
                 .now
                   font-size: 14px
                   color: rgb(240, 20, 20)
+                  margin-right: 8px
                 .old
                   font-size: 10px
                   color: rgb(147, 153, 159)

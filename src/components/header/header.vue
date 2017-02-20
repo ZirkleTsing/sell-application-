@@ -31,11 +31,34 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%"><!--充满整个父元素-->
     </div>
-    <div v-show="detailShow" class="detail">
+    <div v-show="detailShow" class="detail" transition="detail">
       <!--固定套路-->
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
+          <div class="star-wrapper">
+            <star :size="48" :score="seller.score"></star>
+          </div>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">优惠信息</div>
+            <div class="line"></div>
+          </div>
+          <div v-if="seller.supports" class="sellerInfo">
+            <div v-for="element in seller.supports" :class="classMap[element.type]" class="sellerInfo-detail">
+              <span :class="classMap[seller.supports[$index].type]" class="seller-icon"></span>
+              <span class="seller-text">{{seller.supports[$index].description}}</span>
+              <!--可以用element.type 和element.description-->
+            </div>
+          </div>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">商家公告</div>
+            <div class="line"></div>
+          </div>
+          <div class="seller-bulletin">
+            <p class="content">{{seller.bulletin}}</p>
+          </div>
         </div>
       </div>
       <div class="detail-close">
@@ -46,6 +69,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import star from 'components/star/star.vue';
+
   export default{
     props: {
       seller: {
@@ -62,11 +87,14 @@
         this.detailShow = true;
       },
       closeDetail() {
-          this.detailShow = false;
+        this.detailShow = false;
       }
     },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+    },
+    components: {
+      star
     }
   };
 </script>
@@ -134,7 +162,6 @@
           .text
             line-height: 12px
             font-size: 10px
-
       .support-count
         position: absolute
         right: 12px
@@ -189,29 +216,93 @@
       filter: blur(10px)
     .detail
       position: fixed
-      z-index: 100px
+      z-index: 100
       top: 0
       left: 0
       width: 100%
       height: 100%
       overflow: auto /*否则超出屏幕高度部分不能滚动*/
-      background: rgba(7, 17, 27, 0.8)
+      transition: all 0.5s
+      backdrop-filter: blur(10px)
+      &.detail-transition
+        opacity: 1
+        background: rgba(7, 17, 27, 0.8)
+      &.detail-enter,&.detail-leave
+        opacity: 0
+        background: rgba(7, 17, 27, 0)
       .detail-wrapper
         width: 100%
-        min-height: 100%/*最小也是100%充满屏幕 与这个padding-bottom内边距相配合，留出64px的位置给close图标*/
+        min-height: 100% /*最小也是100%充满屏幕 与这个padding-bottom内边距相配合，留出64px的位置给close图标*/
         .detail-main
           margin-top: 64px
-          padding-bottom: 64px  /*padding-bottom 使得内容与关闭图标不会重叠*/
+          padding-bottom: 64px /*padding-bottom 使得内容与关闭图标不会重叠*/
           .name
             line-height: 16px
             text-align: center
             font-size: 16px
             font-weight: 700
+          .star-wrapper
+            margin-top: 16px
+            padding: 2px 0
+            text-align: center
+          .title
+            display: flex
+            width: 80%
+            margin: 28px auto 24px auto
+            .line
+              flex: 1
+              position: relative
+              top: -6px
+              border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+            .text
+              padding: 0 12px
+              font-weight: 700
+              font-size: 14px
+          .sellerInfo
+            /*margin: 24px 48px 28px 36px*/
+            width: 80%
+            margin: 0 auto
+            .sellerInfo-detail
+              padding: 0 12px
+              margin-bottom: 12px
+              font-size: 0
+              &:last-child
+                margin-bottom: 0
+              .seller-icon
+                display: inline-block
+                vertical-align: top
+                margin-right: 6px
+                width: 16px
+                height: 16px
+                background-size: 16px 16px
+                background-repeat: no-repeat
+                &.decrease
+                  bg-image('decrease_2')
+                &.discount
+                  bg-image('discount_2')
+                &.guarantee
+                  bg-image('guarantee_2')
+                &.invoice
+                  bg-image('invoice_2')
+                &.special
+                  bg-image('special_2')
+              .seller-text
+                font-size: 12px
+                font-weight: 200
+                line-height: 16px
+          .seller-bulletin
+            width: 80%
+            margin: 0 auto
+            .content
+              padding: 0 12px
+              font-size: 12px
+              font-weight: 200
+              line-height: 24px
       .detail-close
         position: relative
         width: 32px
         height: 32px
-        margin: -64px auto 0 auto/*原本被100%高度填充的detail-main挤到外面，但是由于padding-bottom的存在使得-64px后可以固定在页面底部*/
+        margin: -64px auto 0 auto /*原本被100%高度填充的detail-main挤到外面，但是由于padding-bottom的存在使得-64px后可以固定在页面底部*/
         clear: both
         font-size: 32px
 </style>

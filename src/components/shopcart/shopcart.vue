@@ -12,7 +12,7 @@
         <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
       <div class="content-right">
-        <div class="pay" :class="{'enough': totalPrice >= minPrice ,'not-enough': totalPrice < minPrice}">
+        <div class="pay" :class=payClass>
           {{payDesc}}
         </div>
       </div>
@@ -66,6 +66,13 @@
           return '还差￥' + diff + '元起送';
         } else {
           return '去结算';
+        }
+      },
+      payClass() {
+        if (this.totalPrice < this.minPrice) {
+          return 'not-enough';
+        } else {
+          return 'enough';
         }
       }
     }

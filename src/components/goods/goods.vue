@@ -32,6 +32,9 @@
                     ￥{{food.oldPrice}}
                   </span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
@@ -45,6 +48,7 @@
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
   import shopcart from '../shopcart/shopcart.vue';
+  import cartcontrol from '../cartcontrol/cartcontrol.vue';
 
   const ERR_OK = 0;
 
@@ -104,7 +108,8 @@
         });
 
         this.foodsScroll = new BScroll(this.$els.foodsWrapper, {
-          probeType: 3
+          probeType: 3,
+          click: true
         });
 
         this.foodsScroll.on('scroll', (pos) => {
@@ -123,7 +128,8 @@
       }
     },
     components: {
-      shopcart
+      shopcart,
+      cartcontrol
     }
   };
 </script>
@@ -232,4 +238,10 @@
                 .old
                   font-size: 10px
                   color: rgb(147, 153, 159)
+              .cartcontrol-wrapper
+                position: absolute
+                right: 0
+                bottom: 0
+                padding-bottom: 10px
+
 </style>

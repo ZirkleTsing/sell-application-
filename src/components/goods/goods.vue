@@ -41,7 +41,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -75,6 +75,18 @@
           }
         }
         return 0;
+      },
+      selectFoods() {
+        let ordered = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              console.log(food.name);
+              ordered.push(food);
+            }
+          });
+        });
+        return ordered;
       }
     },
     created() {
@@ -157,7 +169,7 @@
         &.current
           position: relative
           margin-top: -1px
-          z-index: 10px
+          z-index: 10
           background: #fff
           font-weight: 700
           .text

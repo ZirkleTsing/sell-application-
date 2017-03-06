@@ -28,7 +28,6 @@ router.map({
     component: ratings
   }
 });
-
 router.start(app, '#app');
 
 router.go('/goods');

@@ -15,7 +15,7 @@
         <li v-for="item in goods" class="menu-list food-item food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul class="form">
-            <li v-for="food in item.foods" class="item">
+            <li @click="selectFood(food,$event)" v-for="food in item.foods" class="item">
               <div class="icon">
                 <img width="54" height="54" :src="food.icon">
               </div>
@@ -41,14 +41,17 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
+              :min-price="seller.minPrice"></shopcart>
   </div>
+  <food :food="selectedFoods" v-ref:show></food>
 </template>
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
   import shopcart from '../shopcart/shopcart.vue';
   import cartcontrol from '../cartcontrol/cartcontrol.vue';
+  import food from '../food/food.vue';
 
   const ERR_OK = 0;
 
@@ -62,7 +65,8 @@
       return {
         goods: [],
         listHeight: [],
-        scrollY: 0
+        scrollY: 0,
+        selectedFoods: {}
       };
     },
     computed: {
@@ -114,6 +118,16 @@
         this.foodsScroll.scrollToElement(el, 300);
         /* 屏蔽掉原生点击事件派发 */
       },
+      selectFood(food, event) {
+        if (!event._constructed) {
+          return;
+        }
+        console.log('clicked!');
+        this.selectedFoods = food;
+        console.log(this.$refs.show);
+        let ele = this.$refs.show;
+        ele.show();
+      },
       _initScroll() {
         this.menuScroll = new BScroll(this.$els.menuWrapper, {
           click: true
@@ -141,12 +155,13 @@
     },
     components: {
       shopcart,
-      cartcontrol
+      cartcontrol,
+      food
     }
   };
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/stylus/mixin.styl"
 
   .menu
@@ -255,5 +270,4 @@
                 right: 0
                 bottom: 0
                 padding-bottom: 10px
-
 </style>

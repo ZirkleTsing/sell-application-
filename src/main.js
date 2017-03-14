@@ -28,6 +28,12 @@ router.map({
     component: ratings
   }
 });
-router.start(app, '#app');
-
-router.go('/goods');
+router.start(app, '#app', function () {
+  console.log('render completed!');
+});
+// Now we can start the app!
+// The router will create an instance of App and mount to
+// the element matching the selector #app.
+// Start the router-enabled app. Creates an instance of App and mounts it to el.
+ router.go('/goods');
+// Programatically navigate to a new route.

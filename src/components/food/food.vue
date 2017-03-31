@@ -4,6 +4,15 @@
       <img class="image"
            :src="food.image">
     </div>
+    <div class="food-info">
+      <div class="name">{{food.name}}</div>
+      <div class="extra">
+        <span class="sell-count">月售{{food.sellCount}}份</span><span class="ratings">好评率{{food.rating}}%</span>
+      </div>
+      <div class="price">
+        <span class="now">￥{{food.price}}</span><span v-if="food.oldPrice !==''" class="old">￥{{food.oldPrice}}</span>
+      </div>
+    </div>
     <div class="header">
       <div class="icon-wrapper" @click="hide">
         <i class="icon-arrow_lift"></i>
@@ -12,7 +21,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   export default {
     props: {
       food: {
@@ -80,5 +89,29 @@
         left: 0
         width: 100%
         height: 100%
-
+    .food-info
+      position: relative
+      padding: 18px
+      .name
+        font-size: 14px
+        line-height: 14px
+        color: rgb(7,17,27)
+        font-weight: 700
+        margin-bottom: 8px
+      .extra
+        font-size: 10px
+        color: rgb(147,153,159)
+        line-height: 10px
+        .sell-count
+          margin-right: 12px
+      .price
+        font-weight: 700
+        line-height: 24px
+        .now
+          font-size: 14px
+          color: rgb(240, 20, 20)
+          margin-right: 8px
+        .old
+          font-size: 10px
+          color: rgb(147, 153, 159)
 </style>

@@ -1,15 +1,15 @@
 <template>
   <div class="cartcontrol">
-    <div v-show="food.count>0" class="cart-decrease" @click="cartRemove" transition="move">
+    <div v-show="food.count>0" class="cart-decrease" @click.stop.prevent="cartRemove" transition="move">
       <span class="inner icon-remove_circle_outline"></span>
     </div>
     <div v-show="food.count>0" class="cart-count">{{food.count}}</div>
-    <div class="inner cart-add icon-add_circle" @click="cartAdd">
+    <div class="inner cart-add icon-add_circle" @click.stop.prevent="cartAdd">
     </div>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import Vue from 'vue';
 
   export default {

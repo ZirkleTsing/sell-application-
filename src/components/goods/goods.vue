@@ -122,9 +122,7 @@
         if (!event._constructed) {
           return;
         }
-        console.log('clicked!');
         this.selectedFoods = food;
-        console.log(this.$refs.show);
         let ele = this.$refs.show;
         ele.show();
       },

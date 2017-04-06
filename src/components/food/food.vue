@@ -41,6 +41,7 @@
             </div>
           </div>
         </div>
+        <div class="border"></div>
       </div>
       <div class="header">
         <div class="icon-wrapper" @click="hide">
@@ -249,4 +250,9 @@
               color: rgb(77, 85, 93)
             .critical-wrapper
               background-color: rgba(77, 85, 93, 0.2)
+        .border
+          margin: 0 18px
+          display: block
+          height: 0
+          border-bottom: 1px solid rgba(7, 17, 27, 0.1)
 </style>

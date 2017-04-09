@@ -27,26 +27,27 @@
       },
       contentType: {
         type: Boolean,
-        default: true
+        default: false
       }
     },
     computed: {
       filters() {
-          return this.ratings.filter((elem) => {
-          if (this.selectType === 2) {
-            if (this.contentType === true) {
-              return elem.text !== '';
+        return this.ratings.filter((elem) => {
+            if (this.selectType === 2) {
+                if (this.contentType) {
+                    return elem.text !== '';
+                }
+                return elem;
             } else {
-              return elem;
+                if (this.contentType) {
+                    return elem.text !== '' && elem.rateType === this.selectType;
+                }
+                return elem.rateType === this.selectType;
             }
-          } else {
-            if (this.contentType === true) {
-              return elem.rateType === this.selectType && elem.text !== '';
-            } else {
-              return elem.rateType === this.selectType;
-            }
-          }
         });
+      },
+      content() {
+          return this.contentType;
       }
     },
     data() {

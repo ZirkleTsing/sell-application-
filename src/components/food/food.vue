@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showFlag" class="food" transition="move" v-el:food>
+  <div v-show="showFlag" class="food" transition="move" v-el:food>
     <div class="food-content">
       <div class="image-wrapper">
         <img class="image"
@@ -96,6 +96,8 @@
             this.foodScroll = new BScroll(this.$els.food, {
               click: true
             });
+          } else {
+              this.foodScroll.refresh();
           }
         });
       },
@@ -143,7 +145,7 @@
           return this.food.ratings;
       },
       content() {
-          return this.food.contentType;
+          return this.contentType;
       }
     },
     components: {

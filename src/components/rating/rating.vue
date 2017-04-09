@@ -1,13 +1,14 @@
 <template>
   <ul>
-    <li class="user-list" v-for="rating in ratings">
+    <li class="user-list" v-for="rating in filters">
       <div>
         <div class="rating-time">2016-07-04 12:34</div>
         <div class="user-rating">
           <span :class="[{'recommend': rating.rateType === 0}, rating.rateType === 0 ? 'icon-thumb_up' : 'icon-thumb_down','icon']"></span><span class="extra">{{rating.text}}</span>
         </div>
         <div class="user-detail">
-          <span class="user-name">{{rating.username}}</span><img class="avatar" width="16" height="16" :src="rating.avatar"></img>
+          <span class="user-name">{{rating.username}}</span><img class="avatar" width="16" height="16"
+                                                                 :src="rating.avatar"/>
         </div>
       </div>
     </li>
@@ -19,10 +20,38 @@
     props: {
       ratings: {
         type: Array
+      },
+      selectType: {
+        type: Number,
+        default: 2
+      },
+      contentType: {
+        type: Boolean,
+        default: true
       }
     },
-    created() {
-        console.log(this.ratings);
+    computed: {
+      filters() {
+          return this.ratings.filter((elem) => {
+          if (this.selectType === 2) {
+            if (this.contentType === true) {
+              return elem.text !== '';
+            } else {
+              return elem;
+            }
+          } else {
+            if (this.contentType === true) {
+              return elem.rateType === this.selectType && elem.text !== '';
+            } else {
+              return elem.rateType === this.selectType;
+            }
+          }
+        });
+      }
+    },
+    data() {
+        return {
+        };
     }
   };
 </script>

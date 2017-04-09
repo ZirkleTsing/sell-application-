@@ -1,5 +1,5 @@
 <template>
-  <div v-show="showFlag" class="food" transition="move" v-el:food>
+  <div v-if="showFlag" class="food" transition="move" v-el:food>
     <div class="food-content">
       <div class="image-wrapper">
         <img class="image"
@@ -30,24 +30,24 @@
         <div v-if="food.ratings" class="food-rating">
           <div class="rating">商品评价</div>
           <div class="wrapper">
-            <div @click="selectButton(ALL,$event)" class="all-wrapper" :class="{'active':selectType === ALL}">
+            <div @click="selectButton(2,$event)" class="all-wrapper" :class="{'active':selectType === 2}">
               <span class="all">全部</span><span class="number">{{food.ratings.length}}</span>
             </div>
-            <div @click="selectButton(1,$event)" class="recommend-wrapper"
-                 :class="{'active' :selectType === 1}">
+            <div @click="selectButton(0,$event)" class="recommend-wrapper"
+                 :class="{'active' :selectType === 0}">
               <span class="recommend">推荐</span><span class="number">{{getRatings.countRecommend}}</span>
             </div>
-            <div @click="selectButton(2,$event)" class="critical-wrapper"
-                 :class="{'active' :selectType === 2}">
+            <div @click="selectButton(1,$event)" class="critical-wrapper"
+                 :class="{'active' :selectType === 1}">
               <span class="critical">吐槽</span><span class="number">{{getRatings.countCritical}}</span>
             </div>
           </div>
         </div>
         <div class="border"></div>
         <div class="showContent">
-          <span class="icon-check_circle" :class="{'active':contentType}"></span><span class="extra">查看有内容的评价</span>
+          <span @click="toggleContent" class="icon-check_circle" :class="{'active':contentType}"></span><span class="extra">查看有内容的评价</span>
         </div>
-        <rating :ratings="food.ratings"></rating>
+        <rating :ratings="ratings" :select-type="selectType" :content-type="content"></rating>
       </div>
       <div class="header">
         <div class="icon-wrapper" @click="hide">
@@ -65,9 +65,9 @@
   import Vue from 'vue';
   import rating from '../rating/rating.vue';
 
-  const ALL = 0;
-  /*  const Recommend = 1;
-   const Critical = 2;*/
+/*  const ALL = 2;*/
+//  const Recommend = 1;
+//  const Critical = 2;
 
   export default {
     props: {
@@ -80,7 +80,7 @@
       },
       selectType: {
         type: Number,
-        default: ALL
+        default: 2
       }
     },
     data() {
@@ -117,6 +117,10 @@
           return;
         }
         this.selectType = selectType;
+      },
+      toggleContent() {
+          this.contentType = !this.contentType;
+          console.log(this.contentType);
       }
     },
     computed: {
@@ -134,6 +138,12 @@
           countRecommend: countRecommend,
           countCritical: countCritical
         };
+      },
+      ratings() {
+          return this.food.ratings;
+      },
+      content() {
+          return this.food.contentType;
       }
     },
     components: {

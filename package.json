@@ -11,11 +11,12 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "vue": "^1.0.21",
-    "vue-router": "^0.7.13",
-    "vue-resource": "^1.0.1",
     "babel-runtime": "^6.0.0",
-    "better-scroll": "^0.1.7"
+    "better-scroll": "^0.1.7",
+    "connect-history-api-fallback": "^1.3.0",
+    "vue": "^1.0.21",
+    "vue-resource": "^1.0.1",
+    "vue-router": "^0.7.13"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -25,7 +26,6 @@
     "babel-preset-es2015": "^6.0.0",
     "babel-preset-stage-2": "^6.0.0",
     "babel-register": "^6.0.0",
-    "connect-history-api-fallbacksudo cnpm install webpack": "^1.1.0",
     "css-loader": "^0.23.0",
     "stylus-loader": "^2.4.0",
     "stylus": "0.52.4",

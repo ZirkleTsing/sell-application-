@@ -30,18 +30,24 @@
         <div v-if="food.ratings" class="food-rating">
           <div class="rating">商品评价</div>
           <div class="wrapper">
-            <div class="all-wrapper">
+            <div @click="selectButton(ALL,$event)" class="all-wrapper" :class="{'active':selectType === ALL}">
               <span class="all">全部</span><span class="number">{{food.ratings.length}}</span>
             </div>
-            <div class="recommend-wrapper">
+            <div @click="selectButton(1,$event)" class="recommend-wrapper"
+                 :class="{'active' :selectType === 1}">
               <span class="recommend">推荐</span><span class="number">{{getRatings.countRecommend}}</span>
             </div>
-            <div class="critical-wrapper">
+            <div @click="selectButton(2,$event)" class="critical-wrapper"
+                 :class="{'active' :selectType === 2}">
               <span class="critical">吐槽</span><span class="number">{{getRatings.countCritical}}</span>
             </div>
           </div>
         </div>
         <div class="border"></div>
+        <div class="showContent">
+          <span class="icon-check_circle" :class="{'active':contentType}"></span><span class="extra">查看有内容的评价</span>
+        </div>
+        <rating :ratings="food.ratings"></rating>
       </div>
       <div class="header">
         <div class="icon-wrapper" @click="hide">
@@ -57,11 +63,24 @@
   import BScroll from 'better-scroll';
   import cartcontrol from '../cartcontrol/cartcontrol.vue';
   import Vue from 'vue';
+  import rating from '../rating/rating.vue';
+
+  const ALL = 0;
+  /*  const Recommend = 1;
+   const Critical = 2;*/
 
   export default {
     props: {
       food: {
         type: Object
+      },
+      contentType: {
+        type: Boolean,
+        default: true
+      },
+      selectType: {
+        type: Number,
+        default: ALL
       }
     },
     data() {
@@ -92,6 +111,12 @@
         } else {
           this.food.count++;
         }
+      },
+      selectButton(selectType, event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.selectType = selectType;
       }
     },
     computed: {
@@ -113,7 +138,8 @@
     },
     components: {
       bounder,
-      cartcontrol
+      cartcontrol,
+      rating
     }
   };
 </script>
@@ -242,17 +268,35 @@
                 font-size: 8px
             .all-wrapper, .recommend-wrapper
               margin-right: 8px
-            .all-wrapper
-              background-color: rgb(0, 160, 220)
-              color: rgb(255, 255, 255)
-            .recommend-wrapper
               background-color: rgba(0, 160, 220, 0.2)
               color: rgb(77, 85, 93)
+              &.active
+                background-color: rgb(0, 160, 220)
+                color: #fff
             .critical-wrapper
               background-color: rgba(77, 85, 93, 0.2)
+              &.active
+                background-color: rgb(77, 85, 93)
+                color: #fff
         .border
           margin: 0 18px
           display: block
           height: 0
           border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+        .showContent
+          padding: 16px 18px
+          color: rgb(147, 153, 159)
+          line-height: 24px
+          border-bottom: 2px solid rgba(7, 17, 27, 0.1)
+          .icon-check_circle
+            display: inline-block
+            vertical-align: top
+            font-size: 24px
+            margin-right: 4px
+            &.active
+              color: rgb(0, 160, 220)
+          .extra
+            display: inline-block
+            vertical-align: top
+            font-size: 12px
 </style>

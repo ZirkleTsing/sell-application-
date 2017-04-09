@@ -90,6 +90,8 @@
     },
     methods: {
       show() {
+        this.selectType = 2;
+        this.contentType = true;
         this.showFlag = true;
         this.$nextTick(() => {
           if (!this.foodScroll) {

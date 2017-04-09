@@ -1,21 +1,24 @@
 <template>
-  <ul>
-    <li class="user-list" v-for="rating in filters">
+  <ul v-show="filters && filters.length">
+    <li class="user-list" v-for="rating in hook">
       <div>
-        <div class="rating-time">2016-07-04 12:34</div>
+        <div class="rating-time">{{rating.rateTime | formatDate}}</div>
         <div class="user-rating">
           <span :class="[{'recommend': rating.rateType === 0}, rating.rateType === 0 ? 'icon-thumb_up' : 'icon-thumb_down','icon']"></span><span class="extra">{{rating.text}}</span>
         </div>
         <div class="user-detail">
-          <span class="user-name">{{rating.username}}</span><img class="avatar" width="16" height="16"
+          <span class="user-name">{{rating.username}}</span><img class="avatar" width="12" height="12"
                                                                  :src="rating.avatar"/>
         </div>
       </div>
     </li>
   </ul>
+  <div v-show="!filters || !filters.length" class="no-rate">暂无评价</div>
 </template>
 
 <script>
+  import {formatDate} from '../../common/js/date';
+
   export default {
     props: {
       ratings: {
@@ -27,10 +30,15 @@
       },
       contentType: {
         type: Boolean,
-        default: false
+        default: true
       }
     },
     computed: {
+      hook() {
+        var temp = this.filters;
+        this.$emit('refresh');
+        return temp;
+      },
       filters() {
         return this.ratings.filter((elem) => {
             if (this.selectType === 2) {
@@ -48,6 +56,12 @@
       },
       content() {
           return this.contentType;
+      }
+    },
+    filters: {
+      formatDate(time) {
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
     data() {
@@ -71,7 +85,7 @@
     .user-rating
       .icon
         font-size: 12px
-        line-height: 24px
+        line-height: 16px
         margin-right: 4px
         &.icon-thumb_down
           color: rgb(147, 153, 159)
@@ -95,4 +109,9 @@
       .avatar
         display: inline-block
         vertical-align: top
+        border-radius: 50%
+  &.no-rate
+    padding: 16px 18px
+    color: rgb(147, 153, 159)
+    font-size: 12px
 </style>

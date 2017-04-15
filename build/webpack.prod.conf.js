@@ -16,7 +16,9 @@ var webpackConfig = merge(baseWebpackConfig, {
   },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
+    //输出根目录为dist
     path: config.build.assetsRoot,
+    //下面filename和extractTextPlugin在分别在static/js和static/css中输出合并后的文件
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
@@ -42,12 +44,14 @@ var webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
+    // filename：生成的文件名：config.build.index: path.resolve(__dirname, '../dist/index.html'),
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
         ? 'index.html'
         : config.build.index,
       template: 'index.html',
       inject: true,
+      //minify就是压缩html的格式的作用
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -59,6 +63,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency'
     }),
     // split vendor js into its own file
+    //把需要的三方库打包到vender.js里,文件改变时第三方库不变，避免重复打包
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module, count) {

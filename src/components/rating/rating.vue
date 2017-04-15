@@ -55,7 +55,7 @@
         });
       },
       content() {
-          return this.contentType;
+        return this.contentType;
       }
     },
     filters: {

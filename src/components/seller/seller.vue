@@ -64,26 +64,25 @@
     },
     watch: {
       'seller'() {
-        if (!this.sellerScroll) {
-          this.sellerScroll = new BScroll(this.$els.seller, {
-            click: true
-          });
-        } else {
-          this.sellerScroll.refresh();
-        }
+        this._initScroll();
       }
     },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
     },
-    ready() {
-      if (!this.sellerScroll) {
-        this.sellerScroll = new BScroll(this.$els.seller, {
+    methods: {
+      _initScroll() {
+        if (!this.sellerScroll) {
+          this.sellerScroll = new BScroll(this.$els.seller, {
             click: true
-        });
-      } else {
-        this.sellerScroll.refresh();
+          });
+        } else {
+           this.sellerScroll.refresh();
+        }
       }
+    },
+    ready() {
+      this._initScroll();
     },
     components: {
       star,

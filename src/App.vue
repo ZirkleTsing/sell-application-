@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import header from 'components/header/header.vue';
 
   const ERR_OK = 0;
@@ -40,7 +40,7 @@
     }
   };
 </script>
-u
+
 <style lang="stylus" rel="stylesheet/stylus">
   @import "common/stylus/mixin.styl";
 

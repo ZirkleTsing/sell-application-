@@ -36,12 +36,29 @@
           <!--可以用element.type 和element.description-->
         </div>
       </div>
-      <div v-if="seller.supports" class="sellerInfo">
-        <div v-for="element in seller.supports" :class="classMap[element.type]" class="sellerInfo-detail">
-          <span :class="classMap[seller.supports[$index].type]" class="seller-icon"></span>
-          <span class="seller-text">{{seller.supports[$index].description}}</span>
-          <!--可以用element.type 和element.description-->
+      <bounder></bounder>
+      <div class="scene">
+        <h1 class="text">商家实景</h1>
+        <div class="image-wrapper" v-el:image-wrapper>
+          <ul v-el:image-desc>
+            <li class="image" v-for="pic in seller.pics" >
+              <img
+                height="90"
+                width="120"
+                :src="pic"
+              />
+            </li>
+          </ul>
         </div>
+      </div>
+      <bounder></bounder>
+      <div class="infos">
+        <h1 class="head">商家信息</h1>
+        <ul>
+          <li class="info" v-for="info in seller.infos">
+            {{info}}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -65,6 +82,7 @@
     watch: {
       'seller'() {
         this._initScroll();
+        this._initImage();
       }
     },
     created() {
@@ -79,10 +97,27 @@
         } else {
            this.sellerScroll.refresh();
         }
+      },
+      _initImage() {
+          if (this.seller.pics) {
+            let len = this.seller.pics.length;
+            let width = (120 + 6) * len - 6;
+            this.$els.imageDesc.style.width = width + 'px';
+            this.$nextTick(() => {
+                if (!this.picScroll) {
+                  this.picScroll = new BScroll(this.$els.imageWrapper, {
+                    scrollX: true
+                  });
+                } else {
+                  this.picScroll.refresh();
+                }
+            });
+          }
       }
     },
     ready() {
       this._initScroll();
+      this._initImage();
     },
     components: {
       star,
@@ -150,15 +185,13 @@
         color: rgb(240, 20, 20)
         border-bottom: 1px solid rgba(7, 17, 27, 0.1)
     .sellerInfo
-      /*margin: 24px 48px 28px 36px*/
-      width: 80%
-      margin: 0 auto
+      padding: 0 18px
       .sellerInfo-detail
-        padding: 0 12px
-        margin-bottom: 12px
+        padding: 16px 12px
+        border-bottom: 1px solid rgba(7, 17, 27, 0.1)
         font-size: 0
         &:last-child
-          margin-bottom: 0
+          border-bottom: none
         .seller-icon
           display: inline-block
           vertical-align: top
@@ -181,4 +214,36 @@
           font-size: 12px
           font-weight: 200
           line-height: 16px
+          color: rgb(7, 17, 27)
+    .scene
+      padding: 18px
+      .text
+        font-size: 14px
+        color: rgb(7, 17, 27)
+        line-height: 14px
+        margin-bottom: 12px
+      .image-wrapper
+        width: 100%
+        white-space: nowrap
+        overflow: hidden
+        .image
+          display: inline-block
+          margin-right: 6px
+    .infos
+      padding: 18px
+      .head
+        padding-bottom: 12px
+        font-size: 14px
+        color: rgb(7, 17, 27)
+        line-height: 14px
+        border-1px(rgba(7, 17, 27, 0.1))
+      .info
+        padding: 16px 12px
+        border-1px(rgba(7, 17, 27, 0.1))
+        font-size: 12px
+        color: rgb(7, 17, 27)
+        font-weight: 200
+        line-height: 16px
+        &:last-child
+          border-none()
 </style>

@@ -23,6 +23,10 @@
             <span class="num">{{seller.deliveryTime}}</span><span class="text">元</span>
           </li>
         </ul>
+        <div class="icon">
+          <i @click="toggleFavorite" class="icon-favorite" :class="{'favorite': favorite}"></i>
+          <h2 class="text">{{isFavorite}}</h2>
+        </div>
       </div>
       <bounder></bounder>
       <div class="bulletin-wrapper">
@@ -77,7 +81,14 @@
     },
     data() {
       return {
+        favorite: false
       };
+    },
+    computed: {
+      isFavorite() {
+        var res = this.favorite === true ? '已收藏' : '收藏';
+        return res;
+      }
     },
     watch: {
       'seller'() {
@@ -113,6 +124,12 @@
                 }
             });
           }
+      },
+      toggleFavorite(event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.favorite = !this.favorite;
       }
     },
     ready() {
@@ -138,7 +155,7 @@
     .seller
       padding: 18px 18px 0 18px
       .main
-        padding-bottom: 18px
+        padding-bottom: 10px
         border-bottom: 1px solid rgba(7, 17, 27, 0.1)
         .name
           margin-bottom: 8px
@@ -170,6 +187,24 @@
             line-height: 10px
             font-size: 10px
             color: rgb(147, 153, 159)
+      .icon
+        position: absolute
+        top: 18px
+        right: 5px
+        width: 50px
+        text-align: center
+        .icon-favorite
+          display: block
+          margin-bottom: 4px
+          font-size: 24px
+          color: rgb(77, 85, 93)
+          line-height: 24px
+          &.favorite
+            color: rgb(230, 20, 20)
+        .text
+          font-size: 10px
+          color: rgb(77, 85, 93)
+          line-height: 10px
     .bulletin-wrapper
       padding: 18px 18px 0 18px
       .bulletin-header

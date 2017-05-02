@@ -22,12 +22,12 @@
         <h1 class="text">购物车</h1>
         <h1 class="clear">清空</h1>
       </div>
-      <div class="shop-list">
+      <div class="shop-list" v-el:shop-list>
         <ul>
           <li class="list" v-for="food in selectFoods">
             <h1 class="list-name">{{food.name}}</h1>
-            <span class="price">{{food.price}}</span>
-            <cartcontrol :food="food"></cartcontrol>
+            <span class="price">￥{{food.price * food.count}}</span>
+            <cartcontrol class="cartcontrol" :food="food"></cartcontrol>
           </li>
         </ul>
       </div>
@@ -37,6 +37,7 @@
 
 <script type="text/ecmascript-6">
   import cartcontrol from '../cartcontrol/cartcontrol.vue';
+  import BScroll from 'better-scroll';
 
   export default {
     props: {
@@ -85,7 +86,18 @@
           this.fold = true;
           return false;
         }
-        let show = !this.fold;
+        var show = !this.fold;
+        if (show) {
+          if (!this.shopScroll) {
+             console.log('初始化');
+             this.shopScroll = new BScroll(this.$els.shopList, {
+                 click: true
+             });
+          } else {
+             console.log('refresh');
+             this.shopScroll.refresh();
+          }
+        }
         return show;
       },
       payDesc() {
@@ -116,12 +128,14 @@
       }
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      BScroll
     }
   };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/mixin.styl"
   .shopcart
     position: fixed
     left: 0
@@ -225,6 +239,7 @@
         height: 40px
         line-height: 40px
         background-color: #f3f5f7
+        border-bottom: 2px solid rgba(7, 17, 27, 0.1)
         .text
           float: left
           font-size: 14px
@@ -235,5 +250,28 @@
           font-size: 12px
           color: rgb(0, 160, 220)
       .shop-list
+        padding: 0 18px
         background: #fff
+        max-height: 217px
+        overflow: hidden
+        .list
+          padding: 12px 0
+          border-1px(rgba(7, 17, 27, 0.1))
+          box-sizing:border-box
+          .list-name
+            font-size: 14px
+            color: rgb(7, 17, 27)
+            line-height: 24px
+          .price
+            position: absolute
+            right: 90px
+            bottom: 12px
+            font-size: 14px
+            font-weight: 700
+            color: rgb(240, 20, 20)
+            line-height: 24px
+          .cartcontrol
+            position: absolute
+            right: 0
+            bottom: 6px
 </style>

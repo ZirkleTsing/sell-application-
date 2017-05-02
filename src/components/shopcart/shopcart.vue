@@ -1,6 +1,6 @@
 <template>
   <div class="shopcart">
-    <div class="content">
+    <div class="content" @click="toggleShow">
       <div class="content-left">
         <div class="logo-wrapper">
           <div class="logo" :class="{'highlight': totalCount > 0}">
@@ -17,10 +17,27 @@
         </div>
       </div>
     </div>
+    <div class="shopcart-list" v-show="showList" transition="fold">
+      <div class="header">
+        <h1 class="text">购物车</h1>
+        <h1 class="clear">清空</h1>
+      </div>
+      <div class="shop-list">
+        <ul>
+          <li class="list" v-for="food in selectFoods">
+            <h1 class="list-name">{{food.name}}</h1>
+            <span class="price">{{food.price}}</span>
+            <cartcontrol :food="food"></cartcontrol>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import cartcontrol from '../cartcontrol/cartcontrol.vue';
+
   export default {
     props: {
       selectFoods: {
@@ -43,6 +60,11 @@
         default: 0
       }
     },
+    data() {
+      return {
+        fold: true
+      };
+    },
     computed: {
       totalPrice() {
         let total = 0;
@@ -57,6 +79,14 @@
           count += food.count;
         });
         return count;
+      },
+      showList() {
+        if (!this.totalCount) {
+          this.fold = true;
+          return false;
+        }
+        let show = !this.fold;
+        return show;
       },
       payDesc() {
         if (this.totalPrice === 0) {
@@ -75,6 +105,18 @@
           return 'enough';
         }
       }
+    },
+    methods: {
+      toggleShow() {
+         if (!this.totalCount) {
+           return;
+         }
+         console.log(this.fold);
+         this.fold = !this.fold;
+      }
+    },
+    components: {
+      cartcontrol
     }
   };
 </script>
@@ -167,4 +209,31 @@
           &.enough
             background: #00b43c
             color: #fff
+    .shopcart-list
+      position: absolute
+      left: 0
+      top: 0
+      z-index: -1
+      width: 100%
+      &.fold-transition
+        transition: all 0.5s
+        transform: translate3d(0, -100%, 0)
+      &.fold-enter,&.fold-leave
+        transform: translate3d(0, 0, 0)
+      .header
+        padding: 0 18px
+        height: 40px
+        line-height: 40px
+        background-color: #f3f5f7
+        .text
+          float: left
+          font-size: 14px
+          font-weight: 200
+          color: rgb(7, 17, 27)
+        .clear
+          float: right
+          font-size: 12px
+          color: rgb(0, 160, 220)
+      .shop-list
+        background: #fff
 </style>

@@ -11,7 +11,7 @@
         <div class="price" :class="{'highlight': totalPrice > 0}">￥{{totalPrice}}</div>
         <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
-      <div class="content-right">
+      <div class="content-right" @click.stop.prevent="pay">
         <div class="pay" :class=payClass>
           {{payDesc}}
         </div>
@@ -20,7 +20,7 @@
     <div class="shopcart-list" v-show="showList" transition="fold">
       <div class="header">
         <h1 class="text">购物车</h1>
-        <h1 class="clear">清空</h1>
+        <h1 class="clear" @click="clear">清空</h1>
       </div>
       <div class="shop-list" v-el:shop-list>
         <ul>
@@ -32,6 +32,7 @@
         </ul>
       </div>
     </div>
+    <div class="shop-mask" @click="hide" v-show="showList" transition="fade"></div>
   </div>
 </template>
 
@@ -90,8 +91,10 @@
         if (show) {
           if (!this.shopScroll) {
              console.log('初始化');
-             this.shopScroll = new BScroll(this.$els.shopList, {
-                 click: true
+             this.$nextTick(() => {
+                 this.shopScroll = new BScroll(this.$els.shopList, {
+                   click: true
+               });
              });
           } else {
              console.log('refresh');
@@ -125,6 +128,24 @@
          }
          console.log(this.fold);
          this.fold = !this.fold;
+      },
+      hide() {
+        this.fold = true;
+      },
+      pay() {
+        if (this.totalPrice < 20) {
+            console.log(`还差${20 - this.totalPrice}元起送`);
+            window.alert(`还差${20 - this.totalPrice}元起送`);
+        } else {
+            console.log(`需要支付${this.totalPrice}元`);
+            window.alert(`需要支付${this.totalPrice}元`);
+        }
+      },
+      clear() {
+        this.selectFoods.forEach((food) => {
+           console.log('清空购物车');
+           food.count = 0;
+        });
       }
     },
     components: {
@@ -252,7 +273,7 @@
       .shop-list
         padding: 0 18px
         background: #fff
-        max-height: 217px
+        max-height: 186px
         overflow: hidden
         .list
           padding: 12px 0
@@ -274,4 +295,17 @@
             position: absolute
             right: 0
             bottom: 6px
+    .shop-mask
+      z-index: -2
+      position: fixed
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      &.fade-transition
+        transition: all 0.5s
+        opacity: 1
+        background: rgba(7, 17, 27, 0.6)
+      &.fade-enter, &.fade-leave
+        opacity: 0
 </style>
